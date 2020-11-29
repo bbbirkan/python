@@ -22,9 +22,3 @@ plt.imshow(resim_dizi)
 
 plt.savefig('resim_dizi')
 #ekrana cikmadi herneyse
-
-#
-#
-
-
-
