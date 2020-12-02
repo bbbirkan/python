@@ -319,4 +319,168 @@ print(round(np.linalg.det(deter)))
 -2.0000000000000004
 -2
 """
+birkan_dizi=np.arange(1,10)
+print(birkan_dizi)
+print(birkan_dizi[2])
+print(birkan_dizi[2:5])
+print(birkan_dizi[0:4])
+print(birkan_dizi[::2])
+"""
+[1 2 3 4 5 6 7 8 9]
+3
+[3 4 5]
+[1 2 3 4]
+[1 3 5 7 9]
+"""
+
+yuy=birkan_dizi[1:3]=65
+print(birkan_dizi)
+"""
+[ 1 65 65  4  5  6  7  8  9]
+"""
+dizi_1=np.arange(1,10)
+dizi_2=dizi_1
+print("dizi 1",dizi_1)
+print("dizi 2",dizi_2)
+#dizi2-dizi1 e esitlendi
+"""
+dizi 1 [1 2 3 4 5 6 7 8 9]
+dizi 2 [1 2 3 4 5 6 7 8 9]
+"""
+dizi_2[:3]=31
+print(dizi_2)
+print(dizi_1)
+#dizi 2 yi degistirince - dizi 1 de otamatik degisti
+"""
+[31 31 31  4  5  6  7  8  9]
+[31 31 31  4  5  6  7  8  9]
+"""
+
+dizi_a=np.arange(1,10)
+dizi_b=dizi_a.copy()
+# kopya olusturduk bundan sonra dizi a dizi b birbirlerinden bagimsiz
+
+dizi_x=np.arange(1,21)
+print(dizi_x)
+"""
+[ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]
+
+"""
+
+print(dizi_x.reshape(5,4))
+"""
+[[ 1  2  3  4]
+ [ 5  6  7  8]
+ [ 9 10 11 12]
+ [13 14 15 16]
+ [17 18 19 20]]
+"""
+c = dizi_x.reshape(5,4)
+print(c[0,0])
+"""
+1
+"""
+print(c[:,:2])
+""""
+[[ 1  2]
+ [ 5  6]
+ [ 9 10]
+ [13 14]
+ [17 18]]
+"""
+
+print(c[:3,:3])
+
+"""
+[[ 1  2  3]
+ [ 5  6  7]
+ [ 9 10 11]]
+"""
+print(c[:2])
+"""
+[[1 2 3 4]
+ [5 6 7 8]]
+"""
+print("deneme1")
+print(c[:2,:3])
+
+"""deneme1
+[[1 2 3]
+ [5 6 7]]
+"""
+
+print("deneme2")
+print(c[:1,:4])
+
+"""
+deneme2
+[[1 2 3 4]]
+"""
+
+print("deneme3")
+print(c[:1,:1])
+
+"""
+deneme3
+[[1]]
+"""
+print("deneme:4")
+print(c[:0,:0])
+"""
+deneme4
+[]
+"""
+print("deneme:5")
+print(c[0,0])
+"""
+deneme:5
+1
+"""
+
+print("deneme:6")
+print(c[:2,:])
+"""
+deneme:6
+[[1 2 3 4]
+ [5 6 7 8]]
+"""
+
+print("deneme:7")
+print(c[:2])
+"""
+deneme:7
+[[1 2 3 4]
+ [5 6 7 8]]
+"""
+
+dizi_3=np.arange(1,13)
+print(dizi_3)
+"""
+[ 1  2  3  4  5  6  7  8  9 10 11 12]
+"""
+
+text1= dizi_3 > 3
+print(text1)
+"""
+[ 1  2  3  4  5  6  7  8  9 10 11 12]
+"""
+
+
+mantik_dizisi = dizi_3 > 3
+print(" mantik_dizisi test:\n",mantik_dizisi)
+"""
+mantik_dizisi test:
+ [False False False  True  True  True  True  True  True  True  True  True]
+"""
+
+print(dizi_3[mantik_dizisi])
+"""
+[ 4  5  6  7  8  9 10 11 12]
+"""
+
+
+print(dizi_3[dizi_3>5])
+"""
+[ 6  7  8  9 10 11 12]
+"""
 
