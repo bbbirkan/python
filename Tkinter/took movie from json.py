@@ -41,6 +41,7 @@ def suggest_name():
 
     return title
 
+
 def movie_title(title):
     global imbd_number
     global movie_last_name
@@ -48,16 +49,18 @@ def movie_title(title):
     l = list()
     show = {}
     for k, v in data.items():
-        # print(v[0]) title of name
-        if movie_movie in v[0]:
-            l.append(k)
-            show[v[0] + " - " + v[1]] = k
-            year = " - " + v[1]
+        check_list = (v[0])  # movie names on list
+        split_search = re.split(r'\s|s|:|!|:|\?|\.', check_list)  # split with this Character
+        for split_words in split_search:
+            if title.capitalize() == split_words.capitalize():
+                l.append(k)
+                show[v[0] + " - " + v[1]] = k
+                year = " - " + v[1]
 
     imbd_number = ''
     movie_last_name = ''
     temp = {}
-    name={}
+    name = {}
     if len(show) == 0:
         pass
     elif len(show) == 1:
@@ -69,7 +72,7 @@ def movie_title(title):
         for number, (index, imbd) in enumerate(zip(show.keys(), l), start=1):
             print(number, "-", index)
             temp[int(number)] = imbd
-            name[int(number)]= index
+            name[int(number)] = index
 
         while True:
             z = (input("Write number here:"))
@@ -88,10 +91,13 @@ def movie_title(title):
                 break
 
     # print(temp)
-    print(imbd_number)
+    print("imbd ID:", imbd_number)
     print(movie_last_name)
-    return movie_last_name , imbd_number
+    return movie_last_name, imbd_number
+
+
 movie_title(suggest_name())
+imbd_id = str(imbd_number)
 
 
 #pprint([list(data.values())])
