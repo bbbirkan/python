@@ -1,9 +1,67 @@
-import time
 from tkinter import *
-import json,re
-from difflib import get_close_matches
 from tkinter.ttk import Progressbar
 import threading
+#----------------------
+import os.path,re,time,pickle,inflect,sys,contextlib,pathlib,sys
+
+import requests
+import json
+from difflib import get_close_matches
+import ast
+import string
+import struct
+from xmlrpc.client import ServerProxy
+from pprint import pprint
+import gzip
+# from mpyg321.mpyg321 import MPyg321Player
+# player = MPyg321Player()
+# from tqdm import tqdm
+# import sounddevice as sd
+# from scipy.io.wavfile import write
+# from pydub import AudioSegment
+# from pydub.playback import play
+# from gtts import gTTS #speech
+# from pynput import keyboard
+# import pathlib
+# import pexpect
+# from gtts import gTTS
+#--- delete after change
+# from textblob import Word
+# from tkinter import filedialog as bir
+#-------------------------
+
+#+---------------Location----------------------+
+def Location_Main():
+    global main_l
+    print("Your main location:", os.getcwd())
+    main_l= os.getcwd()
+    return main_l
+Location_Main()
+def Location_folder(folder_location):
+    try:
+        os.getcwd()  # main folder location
+        os.chdir(folder_location)  # change main data
+        print("Your Current location:", os.getcwd())
+    except IOError:
+        n=-1
+        for i in os.listdir():
+            n=n+1
+            print(n," - "+i)
+        print("Your Current location:", os.getcwd())
+        print(folder_location + ' is Not in this location please write in correct location')
+        while True:
+            z = (input("Write number here:"))
+            if z.isdigit() == False:
+                print("Thats not a number please write number.")
+            else:
+                z = int(z)
+                break
+        folder_location = ""+(os.listdir()[z])+""
+        Location_folder(folder_location)
+        print("Correct location now",os.getcwd())
+        # print(os.mkdir("new"))# create folder maybe update for future
+#|-------------------------------------|
+Location_folder("json_data")
 
 root = Tk()
 root.geometry("700x360")
@@ -58,102 +116,102 @@ def Accept_movie():
         progress['value'] = 5
         # DO SOMETHING
         # -------------
-        def Opensubtitle_Download(imdb_id):
-            global saved_file_name
-            alldata={}
-            url = "https://www.opensubtitles.com/api/v1/login"
-            headers = {'api-key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu', 'content-type': 'application/json'}
-            user = {'username': 'birkank', 'password': "yEue!DFbbbb%$3"}
-
-            try:
-                login_response = requests.post(url, data=json.dumps(user), headers=headers)
-                login_response.raise_for_status()
-                login_json_response = login_response.json()
-                login_token = login_json_response['token']
-            except:
-                print("Something wrong check again...")
-
-            headers = {
-                'Api-Key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu',
-            }
-            params = (
-                ('imdb_id', imdb_id),
-            )
-            query_response = requests.get('https://www.opensubtitles.com/api/v1/subtitles?', params=params,
-                                          headers=headers)
-            query_json_response = query_response.json()
-            print("Report:", query_response)
-            # pprint(query_json_response)# All data here...
-            try:
-                query_file_name = query_json_response['data'][0]['attributes']['files'][0]['file_name']
-                query_file_no = query_json_response['data'][0]['attributes']['files'][0]['file_id']
-                movie_img = query_json_response['data'][0]['attributes']['related_links']['img_url']
-            except:
-                query_file_name = "N/A"
-                query_file_no = "N/A"
-                movie_img = "N/A"
-
-            while True:
-                if query_file_no != "N/A":
-                    print("Movie Image url:", movie_img)
-                    print("File Number:", query_file_no)
-                    print("Subtile File Name:", query_file_name)
-
-                    Location_folder(main_l)  # Main Location Folder
-                    Location_folder("movie")  # Enter Movie folder inside
-
-                    from PIL import Image
-                    ImgRequest = requests.get(movie_img)
-                    img = open("temp.jpg", "wb")
-                    img.write(ImgRequest.content)
-                    img.close()
-                    img = Image.open("temp.jpg")
-                    img.show()
-
-                    download_url = "https://www.opensubtitles.com/api/v1/download"
-                    download_headers = {'api-key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu',
-                                        'authorization': login_token,
-                                        'content-type': 'application/json'}
-
-                    download_file_id = {'file_id': query_file_no}
-                    download_response = requests.post(download_url, data=json.dumps(download_file_id),
-                                                      headers=download_headers)
-                    download_json_response = download_response.json()
-                    #pprint(query_json_response)# All data here...**********************************************8
-                    print('Beginning file download with requests')
-                    print("Report:", download_response)
-
-                    link = download_json_response['link']
-                    saved_file_name = "subtitle.srt"
-                    r = requests.get(link)
-                    with open(saved_file_name, 'wb') as f:
-                        f.write(r.content)
-                    left = download_json_response['remaining']
-                    print("Subtitle File Downloaded")
-                    print("How many request left:", left)
-
-                    alldata[imbd_id] = {
-                        "title": movie_last_name,
-                        "image": str(movie_img),
-                        "subtitle": str(r.content)}
-
-                    Location_folder(main_l)  # Main Location Folder
-                    Location_folder("json_data")  # Enter Movie folder inside
-
-                    with open("Subtitle.json", "r") as jsonFile:
-                        mergee = json.load(jsonFile)
-                    merge_dic = {**alldata, **mergee}  # merge 2 dictionary
-
-
-                    with open("Subtitle.json", 'w', encoding='utf8') as f3:
-                        json.dump(merge_dic, f3, ensure_ascii=False, indent=1)
-                    Location_folder(main_l)  # Main Location Folder
-                    Location_folder("movie")  # Enter Movie folder inside
-                    break
-                else:
-                    print("Done! with the error")
-                    saved_file_name="0"
-                    break
+        # def Opensubtitle_Download(imdb_id):
+        #     global saved_file_name
+        #     alldata={}
+        #     url = "https://www.opensubtitles.com/api/v1/login"
+        #     headers = {'api-key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu', 'content-type': 'application/json'}
+        #     user = {'username': 'birkank', 'password': "yEue!DFbbbb%$3"}
+        #
+        #     try:
+        #         login_response = requests.post(url, data=json.dumps(user), headers=headers)
+        #         login_response.raise_for_status()
+        #         login_json_response = login_response.json()
+        #         login_token = login_json_response['token']
+        #     except:
+        #         print("Something wrong check again...")
+        #
+        #     headers = {
+        #         'Api-Key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu',
+        #     }
+        #     params = (
+        #         ('imdb_id', imdb_id),
+        #     )
+        #     query_response = requests.get('https://www.opensubtitles.com/api/v1/subtitles?', params=params,
+        #                                   headers=headers)
+        #     query_json_response = query_response.json()
+        #     print("Report:", query_response)
+        #     # pprint(query_json_response)# All data here...
+        #     try:
+        #         query_file_name = query_json_response['data'][0]['attributes']['files'][0]['file_name']
+        #         query_file_no = query_json_response['data'][0]['attributes']['files'][0]['file_id']
+        #         movie_img = query_json_response['data'][0]['attributes']['related_links']['img_url']
+        #     except:
+        #         query_file_name = "N/A"
+        #         query_file_no = "N/A"
+        #         movie_img = "N/A"
+        #
+        #     while True:
+        #         if query_file_no != "N/A":
+        #             print("Movie Image url:", movie_img)
+        #             print("File Number:", query_file_no)
+        #             print("Subtile File Name:", query_file_name)
+        #
+        #             Location_folder(main_l)  # Main Location Folder
+        #             Location_folder("movie")  # Enter Movie folder inside
+        #
+        #             from PIL import Image
+        #             ImgRequest = requests.get(movie_img)
+        #             img = open("temp.jpg", "wb")
+        #             img.write(ImgRequest.content)
+        #             img.close()
+        #             img = Image.open("temp.jpg")
+        #             img.show()
+        #
+        #             download_url = "https://www.opensubtitles.com/api/v1/download"
+        #             download_headers = {'api-key': 'JCa5AqZVFIqhxKTZlg4KGE4LftaUA5Mu',
+        #                                 'authorization': login_token,
+        #                                 'content-type': 'application/json'}
+        #
+        #             download_file_id = {'file_id': query_file_no}
+        #             download_response = requests.post(download_url, data=json.dumps(download_file_id),
+        #                                               headers=download_headers)
+        #             download_json_response = download_response.json()
+        #             #pprint(query_json_response)# All data here...**********************************************8
+        #             print('Beginning file download with requests')
+        #             print("Report:", download_response)
+        #
+        #             link = download_json_response['link']
+        #             saved_file_name = "subtitle.srt"
+        #             r = requests.get(link)
+        #             with open(saved_file_name, 'wb') as f:
+        #                 f.write(r.content)
+        #             left = download_json_response['remaining']
+        #             print("Subtitle File Downloaded")
+        #             print("How many request left:", left)
+        #
+        #             alldata[imbd_id] = {
+        #                 "title": movie_last_name,
+        #                 "image": str(movie_img),
+        #                 "subtitle": str(r.content)}
+        #
+        #             Location_folder(main_l)  # Main Location Folder
+        #             Location_folder("json_data")  # Enter Movie folder inside
+        #
+        #             with open("Subtitle.json", "r") as jsonFile:
+        #                 mergee = json.load(jsonFile)
+        #             merge_dic = {**alldata, **mergee}  # merge 2 dictionary
+        #
+        #
+        #             with open("Subtitle.json", 'w', encoding='utf8') as f3:
+        #                 json.dump(merge_dic, f3, ensure_ascii=False, indent=1)
+        #             Location_folder(main_l)  # Main Location Folder
+        #             Location_folder("movie")  # Enter Movie folder inside
+        #             break
+        #         else:
+        #             print("Done! with the error")
+        #             saved_file_name="0"
+        #             break
 
 
 
@@ -213,7 +271,8 @@ def Callback_entry(auto_entry): #Entery type focus automation
         global match
         global movie_name
         list_find_close=[]
-        json_path = "/Users/birkankalyon/phyton/Tkinter/movie.json"
+        Location_folder("json_data")
+        json_path = "movie.json"
         with open(json_path) as json_file:
             data = json.load(json_file)
         while True:
