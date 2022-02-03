@@ -8,3 +8,10 @@ print("shape:",x.shape)
 print("dimension", x.ndim)
 
 print("data ty")
+
+
+import numpy as np
+from numpy import random
+p=np.random.choice(range(50),size=(5, 5), replace=False)
+p[2,2]=0
+print(p)

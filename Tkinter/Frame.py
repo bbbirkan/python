@@ -14,11 +14,10 @@ def bir():
 
 a_button = Button(frame1, text="Addition Flashcards", command=bir,bg="red")
 a_button.pack()
-b_button = Button(frame2, text="Subtraction Flashcards", command=bir,bg="red")
-b_button.pack()
+
 
 a_button.pack()
-b_button.pack()
+
 # def subtract():
 # 	hide_menu_frames()
 # 	subtract_frame.pack(fill="both", expand=1)
