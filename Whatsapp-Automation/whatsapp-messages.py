@@ -1,3 +1,23 @@
+"""
+Open a terminal or command prompt
+If you want to create a virtual environment (recommended), run the following commands:
+Copy code
+pip install virtualenv
+virtualenv my_env
+source my_env/bin/activate
+Install the required libraries by running the following commands:
+Copy code
+pip install pywhatkit
+pip install PyAutoGUI
+pip install pynput
+pip install emoji
+Open WhatsApp in your default browser (https://web.whatsapp.com/) and scan the QR code with your phone to log in.
+Run the script and allow the keyboard library to access your keyboard when prompted.
+Note: These instructions assume that you have Python and pip installed on your system. If not, you will need to install those first.
+
+"""
+
+
 import pywhatkit
 import pyautogui
 from pynput.keyboard import Key, Controller
@@ -13,7 +33,7 @@ theMessage = random.choice(['Hi, How are you?',
              emoji.emojize(':smiling_face_with_heart-eyes:')])
 print(theMessage)
 
-phoneNumber = "+16092024224"
+phoneNumber = "+1609202****"
 
 result = time.localtime(time.time())
 print("tm_hour:", result.tm_hour)
