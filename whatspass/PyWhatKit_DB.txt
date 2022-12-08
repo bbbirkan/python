@@ -23,3 +23,8 @@ Time: 23:44
 Phone Number: +16092024224
 Message: How is your day?
 --------------------
+Date: 8/12/2022
+Time: 0:26
+Phone Number: +16092024224
+Message: ❤️", variant="emoji_type
+--------------------
