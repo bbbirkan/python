@@ -33,7 +33,7 @@ theMessage = random.choice(['Hi, How are you?',
              emoji.emojize(':smiling_face_with_heart-eyes:')])
 print(theMessage)
 
-phoneNumber = "+16092024224"
+phoneNumber = "+1609202***"
 
 result = time.localtime(time.time())
 print("tm_hour:", result.tm_hour)

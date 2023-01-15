@@ -11,7 +11,7 @@ text-ada-001	Capable of very simple tasks, usually the fastest model in the GPT-
 import os,json
 import openai
 
-os.environ["key"]="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"
+os.environ["key"]="sk-*****"
 
 
 
